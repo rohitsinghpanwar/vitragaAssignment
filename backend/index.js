@@ -8,9 +8,11 @@ import axios from 'axios';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin:process.env.FRONTEND_URL
+}));
 app.use(express.json());
-
+const PORT = process.env.PORT || 4000;
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 const transporter = nodemailer.createTransport({
@@ -109,9 +111,9 @@ app.get("/",(req,res)=>{
 })
 
 // Run cron job every day at 10 AM
-cron.schedule("0 10 * * *", () => {
+cron.schedule("30 4 * * *", () => {
   console.log("Running Cronjob for daily GitHub updates...");
   githubUpdate();
 });
 
-app.listen(4000, () => console.log(`App is running at http://localhost:4000`));
+app.listen(PORT || 4000, () => console.log(`Server is running at ${PORT}`));

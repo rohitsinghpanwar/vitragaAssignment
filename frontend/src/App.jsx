@@ -16,7 +16,7 @@ function App() {
     setError('');
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:4000/submit", formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}`, formData);
       setMessage(response.data.message);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
