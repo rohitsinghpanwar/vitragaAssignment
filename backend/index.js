@@ -32,7 +32,12 @@ async function githubEvents() {
     return cachedUpdates;
   }
 
-  const { data } = await axios.get("https://api.github.com/events");
+  const { data } = await axios.get("https://api.github.com/events",{
+    headers: {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      "User-Agent": "Vitraga-Frontend"
+    },
+  });
   cachedUpdates = data
     .slice(0, 5)
     .map((e) => `• ${e.type} by ${e.actor.login}`)
